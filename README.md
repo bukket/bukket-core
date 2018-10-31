@@ -17,6 +17,10 @@ you name your bucket.
 One of the important departures from the original bucket is the modularity of the project. Different features
 can be used and managed via chat commands by adding custom modules. They will be in constant development; stay tuned.
 
+Development
+-----------
+Check out the wiki page
+
 Installing
 ----------
 

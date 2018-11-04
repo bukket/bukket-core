@@ -1,0 +1,9 @@
+name: bucket
+channels:
+  - defaults
+dependencies:
+  - python=3.7
+  - pip:
+    - flask==1.0.2
+    - pytest==3.9.3
+    - pytest-flask==0.14.0

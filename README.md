@@ -21,6 +21,24 @@ Development
 -----------
 Check out the wiki page
 
+(Optional) Install Conda
+
+https://conda.io/docs/user-guide/install/index.html
+
+```
+# Optional
+conda env create -f environment.yml
+conda activate bucket
+```
+
+To hack on bucket:
+```
+pip install -e .
+export FLASK_APP=bucket
+export FLASK_ENV=development
+flask run
+```
+
 Installing
 ----------
 
@@ -28,7 +46,7 @@ The following installation instructions are assuming you are using an ubuntu ser
 
 1. Clone this repository.
 
-2. Install 
+2. Install
   TODO
 
 3. Pre-flight checklist

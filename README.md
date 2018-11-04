@@ -149,3 +149,6 @@ bucket also has some factoids for hard-coded uses. These include "Don't Know", "
 
 Please contact itsallvoodoo for any bugs, issues, suggestions, or questions. I am looking for active developers, so don't be afraid to fork
 it and improve bucket! Many thanks go out to [zigdon](https://github.com/zigdon) for sharing the original inspiration for this irc bot.
+=======
+# bukket-core
+Core code that makes up the bukket bot

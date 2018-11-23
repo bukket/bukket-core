@@ -17,7 +17,7 @@ def create_app(test_config=None):
         )
 
     @app.route('/')
-    def hello():
+    def index():
         r = {
             'version': '0.1.0',
             'name': 'bukket-core'

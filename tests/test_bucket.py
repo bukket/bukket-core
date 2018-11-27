@@ -15,9 +15,21 @@ def test_factoid_search(test_client):
     assert response.status_code == 200
 
 
+def test_factoid_searchall(test_client):
+    response = test_client.get('/factoid/search/')
+    assert response.status_code == 404
+
+
 def test_factoid_search_spaces(test_client):
     response = test_client.get('/factoid/search/a%20test%20trigger')
     assert response.status_code == 200
+    assert response.json['data'][0]['id'] == 1
+
+
+def test_factoid_search_case_insenstive(test_client):
+    response = test_client.get('/factoid/search/A%20Test%20Trigger')
+    assert response.status_code == 200
+    assert response.json['data'][0]['id'] == 1
 
 
 def test_search_factoid_tidbit(test_client):

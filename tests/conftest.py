@@ -3,7 +3,7 @@ import os
 import pytest
 
 from bucket.models import Factoid, Base
-from bucket.db import get_db
+from bucket.db import connection
 from bucket import create_app
 
 @pytest.fixture(scope="session")
@@ -26,17 +26,17 @@ def test_app(request):
 
 @pytest.fixture(scope="session")
 def db_setup(test_app):
-    session = get_db()
-    f = Factoid(
-        fact='a test trigger',
-        tidbit='helloooo',
-        verb='is',
-        re=False,
-        protected=False,
-        mood=0,
-        chance=1)
-    session.add(f)
-    session.commit()
+    with connection() as session:
+        f = Factoid(
+            fact='a test trigger',
+            tidbit='helloooo',
+            verb='is',
+            re=False,
+            protected=False,
+            mood=0,
+            chance=1)
+        session.add(f)
+        session.commit()
 
 @pytest.fixture(scope="session")
 def test_client(test_app, db_setup):

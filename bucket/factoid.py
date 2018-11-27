@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, request
 
 from bucket.models import Factoid
-from bucket.db import get_db
+from bucket.db import connection
 from sqlalchemy.orm.exc import NoResultFound
 from bucket.exceptions import FactoidNotFound
 
@@ -10,38 +10,39 @@ bp = Blueprint('factoid', __name__, url_prefix='/factoid')
 
 
 def search_factoids(phrase, by_tidbit=False):
-    session = get_db()
-    results = []
-    if by_tidbit is True:
-        q = session.query(Factoid).filter(Factoid.tidbit.like(f"%{phrase}%")).all()
-    else:
-        q = session.query(Factoid).filter(Factoid.fact.like(f"%{phrase}%")).all()
+    with connection() as session:
+        results = []
+        if by_tidbit is True:
+            q = session.query(Factoid).filter(Factoid.tidbit.like(f"%{phrase}%")).all()
+        else:
+            q = session.query(Factoid).filter(Factoid.fact.like(f"%{phrase}%")).all()
 
-    for fact in q:
-        results.append(fact.serialize())
-    return results
+        for fact in q:
+            results.append(fact.serialize())
+        return results
 
 
 def list_exact_factoids(phrase):
     """ Given a trigger phrase, try to find a list of matching tidbits and
     return them. The behavior of choosing a random tidbit is left to the client.
     """
-    session = get_db()
-    results = []
-    for fact in session.query(Factoid).filter(Factoid.fact == phrase).all():
-        results.append(fact.serialize())
-    return results
+    with connection() as session:
+        # session = get_db()
+        results = []
+        for fact in session.query(Factoid).filter(Factoid.fact == phrase).all():
+            results.append(fact.serialize())
+        return results
 
 
 def one_factoid(id):
     """ Return a single factoid given a factoid ID """
-    session = get_db()
-    try:
-        result = session.query(Factoid).filter(Factoid.id == id).one()
-    except NoResultFound as e:
-        raise FactoidNotFound from e
-    else:
-        return result.serialize()
+    with connection() as session:
+        try:
+            result = session.query(Factoid).filter(Factoid.id == id).one()
+        except NoResultFound as e:
+            raise FactoidNotFound from e
+        else:
+            return result.serialize()
 
 
 @bp.route('/')
